@@ -672,6 +672,14 @@ mod _os {
         fn fspath(&self, vm: &VirtualMachine) -> PyResult {
             self.path(vm)
         }
+
+        #[pymethod(name="__repr__")]
+        fn repr(&self, vm: &VirtualMachine) -> String {
+            match self.entry.file_name().into_string() {
+                Ok(name) => format!("<DirEntry '{}'>", name),
+                Err(os_str) => format!("DirEntry 'non-utf8-file'")
+            }            
+        }
     }
 
     #[pyattr]
